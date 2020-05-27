@@ -12,7 +12,6 @@ with open('index.html', mode='r') as f:
 with open('next.html', mode='r') as f:
 	next = f.read()
 
-
 routes = []
 
 def route(path, method):
@@ -30,7 +29,7 @@ class HelloServerHandler(BaseHTTPRequestHandler):
 		if (_url.path == '/'):
 			self.index()
 		elif (_url.path == '/next'):
-			self.next
+			self.next()
 		else:
 			self.error()
 

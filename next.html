@@ -1,18 +1,30 @@
 <!doctype html>
 <html lang="ja">
 <head>
-	<title>Next</title>
+	<title>Output</title>
 	<meta charset="utf-8"/>
 	<style>
 	body {{margin: 10px;}}
 	h1 {{text-align: right;}}
 	p {{font-size: 14pt;}}
 	pre {{background-color: aliceblue;}}
+	span {{float: left; margin: 20px;}}
+	.wrap {{overflow: hidden;}}
 	</style>
 </head>
 <body>
-	<h1>Next Page</h1>
-	<p>{message}</p>
-	<pre>{data}</pre>
+	<div class=wrap>
+		<span>
+			<h2>{input_msg}</h2>
+			<img src='img.png' alt="img.png">
+		</span>
+		<span>
+			<h2>{output_msg}</h2>
+			<img src='img_blur.png' alt="img_blur.png">
+		</span>
+	</div>
+	<br>
+	<br>
+	<a href="/">{return_index}</a>
 </body>
 </html>

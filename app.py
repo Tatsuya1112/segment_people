@@ -5,6 +5,7 @@ import io
 from PIL import Image
 import torch
 import numpy as np
+from Segment import *
 
 # load html file.
 with open('index.html', mode='r') as f:
@@ -21,6 +22,8 @@ def route(path, method):
 route('/', 'index')
 route('/index', 'index')
 route('/next', 'next')
+route('/img.png', 'img')
+route('/img_blur.png', 'img_blur')
 
 class HelloServerHandler(BaseHTTPRequestHandler):
 
@@ -30,6 +33,10 @@ class HelloServerHandler(BaseHTTPRequestHandler):
 			self.index()
 		elif (_url.path == '/next'):
 			self.next()
+		elif (_url.path == '/img.png'):
+			self.img()
+		elif (_url.path == '/img_blur.png'):
+			self.img_blur()
 		else:
 			self.error()
 
@@ -44,18 +51,25 @@ class HelloServerHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 
 		##################################################
+		# save input image
 		img_from_byte = Image.open(io.BytesIO(res))
-		img_from_byte.save('img.png')
+		img_from_byte.save('img_raw.png')
+
+		# crop input image
+		img_from_byte_crop = crop_img(img_from_byte)
+		img_from_byte_crop.save('img.png')
+
+		# blur person
+		img_from_byte_blur = blur_img(img_from_byte)
+		img_from_byte_blur.save('img_blur.png')
 		##################################################
 
 		img_arr = torch.tensor(np.array(img_from_byte))
 
 		html = next.format(
-			# message = 'you typed: ' + res,
-			# message = 'you typed: ' + str(res),
-			message = 'posted!',
-			# data = form
-			data = img_arr.shape
+			input_msg = '入力',
+			output_msg = '出力',
+			return_index = '画像の入力に戻る'
 		)
 
 		self.wfile.write(html.encode('utf-8'))
@@ -65,20 +79,39 @@ class HelloServerHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.end_headers()
 		html = index.format(
-			title='Hello',
-			message='Form送信'
+			title='人にモザイクをかけます!',
+			text='入力画像を選択して下さい'
 		)
 		self.wfile.write(html.encode('utf-8'))
 		return
 
-	def next(self):
+	# def next(self):
+	# 	self.send_response(200)
+	# 	self.end_headers()
+	# 	html = next.format(
+	# 		input_msg = '入力',
+	# 		output_msg = '出力',
+	# 		return_index = '画像の入力に戻る'
+	# 	)
+	# 	self.wfile.write(html.encode('utf-8'))
+	# 	return
+
+	def img(self):
+		f = open('img.png', 'rb')
 		self.send_response(200)
+		self.send_header('Content-type', 'image/png')
 		self.end_headers()
-		html = next.format(
-			message = 'header data.',
-			data=self.headers
-		)
-		self.wfile.write(html.encode('utf-8'))
+		self.wfile.write(f.read())
+		f.close()
+		return
+
+	def img_blur(self):
+		f = open('img_blur.png', 'rb')
+		self.send_response(200)
+		self.send_header('Content-type', 'image/png')
+		self.end_headers()
+		self.wfile.write(f.read())
+		f.close()
 		return
 
 	def error(self):

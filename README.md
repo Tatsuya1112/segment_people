@@ -1,4 +1,7 @@
+# segment_people
+
 画像の人の部分にモザイクをかけるアプリです。HTTPサーバーで動かしています。
+
 png画像を受け取り、256×256のサイズのモザイク処理済画像を出力します。
 
 ![1](https://user-images.githubusercontent.com/45190789/84501767-0db12e00-acf2-11ea-992b-b8dacf15a7df.jpg)

@@ -32,6 +32,8 @@ localhost:8000/index
 
 https://github.com/Tatsuya1112/pytorch_VOC_Segmentation
 
+https://drive.google.com/file/d/1YuipJlNQ9mKHdEiajEB5fUpsaPWiKlB6/view?usp=sharing
+
 上のコードによりpascal_vocデータセットをセマンティックセグメンテーションするように学習されたモデル(``model.pth``)を用いて、一度入力画像をセマンティックセグメンテーション(21分類)します。その後21分類から人か人以外かの2分類に変換します。
 
 ## モザイク

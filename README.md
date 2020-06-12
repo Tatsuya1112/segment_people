@@ -5,7 +5,24 @@
 
 # Requirements
 
+```
 torch
 torchvision
 argparse
 numpy
+```
+
+# Overview
+
+
+## サーバーの起動
+```python
+python app.py
+```
+
+## ページへのアクセス
+```
+localhost:8000/index
+```
+
+png画像を受け取り、256×256のサイズのモザイク処理済画像を出力します。
